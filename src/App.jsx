@@ -8,7 +8,8 @@ class App extends Component {
   constructor(props) {
     super(props)
     this.addMessage = this.addMessage.bind(this)
-    this.state = { socket: new WebSocket('ws://localhost:3001'),
+    this.socket = new WebSocket('ws://localhost:3001')
+    this.state = {
       currentUser: {name: 'Bob'}, // optional. if currentUser is not defined, it means the user is Anonymous
       messages: []
     }
@@ -16,25 +17,31 @@ class App extends Component {
   //Our function for adding a new message!
   addMessage(content) {
     let newMessage = {
-      id: Math.floor(Math.random() * 100000),
       username: this.state.currentUser.name,
       content: content,
   
     };
-    this.state.socket.send(JSON.stringify(newMessage));
-    const oldMessages = this.state.messages;
-    const newM = [...oldMessages, newMessage];
-    this.setState({ messages: newM });
-    
+    this.socket.send(JSON.stringify(newMessage));
+     // const oldMessages = this.state.messages;
+    // const newM = [...oldMessages, newMessage];
+    // this.setState({ messages: newM });  
   }
   componentDidMount() {
     console.log('componentDidMount <App />');
     
+    this.socket.onmessage = (obj) => {
+      var msg = JSON.parse(obj.data);
+      console.log(msg)
+      console.log(this.state)
+      const oldMessages = this.state.messages;
+      const newM = [...oldMessages, msg];
+      this.setState({ messages: newM });  
+    }
     // Connect our code to the websocket server.
     // Connection opened
     console.log(this.state.socket)
     // Connection opened
-    this.state.socket.onopen = function (event) {
+    this.socket.onopen = function (event) {
       console.log('connected to server',event); 
     };
   
