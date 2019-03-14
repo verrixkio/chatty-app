@@ -5,7 +5,7 @@ import Message from './Message.jsx';
 export default class MessageList extends Component {
   render (){
     const newArray = this.props.currentMessageText.map((message) => {
-    return <Message message={message.content} username={message.username}/> });
+    return <Message message={message.content} username={message.currentUser}/> });
     return ( 
       <div className='messages'>
         {newArray}
