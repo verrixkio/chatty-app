@@ -7,6 +7,8 @@ import ChatBar from './ChatBar.jsx'
 class App extends Component {
   constructor(props) {
     super(props)
+    
+    //Bind the functions to allow usage.
     this.addMessage = this.addMessage.bind(this)
     this.changeName = this.changeName.bind(this)
 
@@ -15,14 +17,13 @@ class App extends Component {
       usertotal: 0,
       type: '',
       previousUser: {name:'Anonymous'},
-      currentUser: {name: ''}, // optional. if currentUser is not defined, it means the user is Anonymous
+      currentUser: {name: ''},
       messages: []
     }
   }
   //Our function for adding a new message!
   addMessage(content) {
-    console.log(this.state.previousUser.name, 'this is our previous user')
-    console.log(this.state.currentUser.name, 'this is our current user')
+    //Add logic for if the current username and previous user name match to send a different notifcation.
     if (this.state.previousUser.name !== this.state.currentUser.name) {
       let newMessage = {
         previousUser: this.state.previousUser.name,
@@ -30,6 +31,8 @@ class App extends Component {
         currentUser: this.state.currentUser.name,
         content: content
       };
+
+      //Now we can set our previous username state to match our current state
       this.setState({previousUser: {name: this.state.currentUser.name}})
       this.socket.send(JSON.stringify(newMessage)); 
     } else {
@@ -43,11 +46,12 @@ class App extends Component {
     }
   }
 
-
+  //Event handler for setting the username state.
   changeName(username) {
     //Set the current User
     this.setState({currentUser: {name: username}})
   }
+  
   componentDidMount() {
     console.log('componentDidMount <App />');
     
