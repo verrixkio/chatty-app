@@ -1,8 +1,5 @@
 /* eslint-disable react/prop-types */
 import React, {Component} from 'react';
-//Need to access currentuser
-
-
 
 export default class ChatBar extends Component {
   constructor () {
@@ -17,15 +14,13 @@ export default class ChatBar extends Component {
       evt.target.value = '';
     }
   } 
+  
   handleChange(event) {
       let username = event.target.value;
       this.props.changeName(username)
     
   }
 
-
-
-  
   render (){
     return (
       <footer className="chatbar">

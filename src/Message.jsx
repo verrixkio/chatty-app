@@ -3,6 +3,7 @@ import React, {Component} from 'react';
 
 export default class Message extends Component {
   render (){
+    // If the users dont match render the proper response
     if (this.props.previousUser !== this.props.currentUser) {
     return (
       <main className="messages">
@@ -13,7 +14,6 @@ export default class Message extends Component {
           <span className="message-username">{this.props.currentUser}</span>
           <span className="message-content">{this.props.message}</span>
         </div>
-        
       </main>
     );
   } else {
