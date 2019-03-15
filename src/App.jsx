@@ -9,9 +9,10 @@ class App extends Component {
     super(props)
     this.addMessage = this.addMessage.bind(this)
     this.changeName = this.changeName.bind(this)
-    
+
     this.socket = new WebSocket('ws://localhost:3001')
     this.state = {
+      usertotal: 0,
       type: '',
       previousUser: {name:'Anonymous'},
       currentUser: {name: ''}, // optional. if currentUser is not defined, it means the user is Anonymous
@@ -49,14 +50,19 @@ class App extends Component {
   }
   componentDidMount() {
     console.log('componentDidMount <App />');
+    
+    //Update user count in state
     this.socket.onmessage = (obj) => {
       var msg = JSON.parse(obj.data);
-      console.log(msg, 'this is the mes obj.data')
-
+      console.log(msg, 'this is being sent!!')
+      if (msg.type === 'userCounter') {
+        this.setState({usertotal: msg.counter})
+      } else {
       
       const oldMessages = this.state.messages;
       const newM = [...oldMessages, msg];
       this.setState({ messages: newM });  
+      }
     }
  
     // Connection opened
@@ -68,7 +74,7 @@ class App extends Component {
   render() {
     return (
         <div>
-        <NavBar />
+        <NavBar counter={this.state.usertotal} />
         <MessageList currentMessageText={this.state.messages} />
         <ChatBar currentUserText={this.state.currentUser} addMessage={this.addMessage} changeName={this.changeName} />
         </div>

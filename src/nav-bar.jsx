@@ -5,6 +5,7 @@ export default class NavBar extends Component {
     return (
       <nav className="navbar">
         <a href="/" className="navbar-brand">Chatty</a>
+        <a className='onlineUser'>User's online: {this.props.counter}</a>
       </nav>
     );
   }
