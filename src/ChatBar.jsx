@@ -13,7 +13,6 @@ export default class ChatBar extends Component {
 
   listenForEnter (evt) {
     if (evt.keyCode === 13) {
-      
       this.props.addMessage(evt.target.value)
       evt.target.value = '';
     }
